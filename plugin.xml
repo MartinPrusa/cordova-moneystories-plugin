@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="com.martinprusa.moneystories.plugin" version="1.0.0">
+    <name>MoneyStoriesPlugin</name>
+    <description>MoneyStoriesPlugin to display stories by date information using MoneyStory SDK</description>
+    <license>MIT</license>
+
+    <engines>
+        <engine name="cordova" version=">=10.1.0"/>
+        <engine name="cordova-android" version=">=9.0.0"/>
+        <engine name="cordova-ios" version=">=6.2.0"/>
+    </engines> 
+
+    <keywords>cordova,android,ios</keywords>
+ 
+    <js-module src="www/MoneyStoriesPlugin.js" name="MoneyStoriesPlugin">
+        <clobbers target="cordova.plugins.MoneyStoriesPlugin" />
+    </js-module>
+
+    <!-- ios side -->
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="MoneyStoriesPlugin">
+                <param name="ios-package" value="MoneyStoriesPlugin" />
+            </feature>
+        </config-file>
+		<header-file src="src/ios/MoneyStoriesPlugin.h" />
+		<source-file src="src/ios/MoneyStoriesPlugin.m" />
+        <framework src="src/ios/framework/MoneyStories.framework" embed="true" custom="true" />
+    </platform>
+
+    <!-- android side -->
+    <platform name="android">
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MoneyStoriesPlugin">
+                <param name="android-package" value="com.outsystems.moneystories.plugin.MoneyStoriesPlugin"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:label="@string/app_name" android:name="com.outsystems.moneystories.BridgeActivity" android:theme="@style/Theme.AppCompat.Light">
+            </activity>
+        </config-file>
+
+        <source-file src="src/android/MoneyStoriesPlugin.java" target-dir="src/com/outsystems/moneystories/plugin" />
+        <framework src="src/android/moneystories.gradle" custom="true" type="gradleReference" />
+        <lib-file src="src/android/libs/moneystories-1.1.0-50.aar" target="libs/moneystories-1.1.0-50.aar" />
+        <lib-file src="src/android/libs/moneystories-api-gateway-android.aar" target="libs/moneystories-api-gateway-android.aar" />
+
+    </platform>          
+</plugin>
